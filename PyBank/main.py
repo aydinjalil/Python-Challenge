@@ -8,8 +8,6 @@ def average_change(profit_loss):
     """
     
     profit_loss_copy = profit_loss[:]
-    print(profit_loss_copy)
-    #pr_loss_diff = []
     average_ch = (profit_loss_copy[-1] - profit_loss_copy[0])/(len(profit_loss_copy)-1)
     return round(average_ch, 2)
     
@@ -41,16 +39,25 @@ def reader(path = "D:\GT Data Science and Analytics\Home_work\Python-Challenge\P
     budget_csv = os.path.join(path, file)
     date_list = []
     profit_loss_lst = []
-    with open(budget_csv, newline = '') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter = ',')
-        next(csv_reader)    
-        for line in csv_reader:
-            date_list.append(line[0])
-            profit_loss_lst.append(float(line[1]))
+    try:
+        with open(budget_csv, newline = '') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter = ',')
+            next(csv_reader)    
+            for line in csv_reader:
+                date_list.append(line[0])
+                profit_loss_lst.append(float(line[1]))
+    except FileNotFoundError:
+        csv_reader = None
     return date_list, profit_loss_lst
+
+
+def writer(total_months, total, dates_gain, dates_loss, average, loss, gain, loss_index, gain_index):
+    with open("bank_results.txt", "w" ) as text:
+        text.write(f"Financial Analysis\n--------------------------\nTotal Months: {total_months}\nTotal: {total}\nAverage Change: {average}\nGreatest Increase in Profits: {dates_gain} (${gain})\nGreatest Decrease in Profits: {dates_loss} (${loss})")
+        print(f"Financial Analysis\n--------------------------\nTotal Months: {total_months}\nTotal: {total}\nAverage Change: {average}\nGreatest Increase in Profits: {dates_gain} (${gain})\nGreatest Decrease in Profits: {dates_loss} (${loss})")
+
         
-    
-    #print(date_list[index])
+
     
 def logic():
     
@@ -60,12 +67,17 @@ def logic():
     dates, profit_loss = reader()
     average = average_change(profit_loss)
     loss, gain, loss_index, gain_index = greatest(profit_loss)
+    total = sum(profit_loss)
+    total_months = len(profit_loss)
+    dates_gain  = dates[gain_index]
+    dates_loss = dates[loss_index]
     
-    print(f"Financial Analysis\n--------------------------\nTotal Months: {len(profit_loss)}\nTotal: {sum(profit_loss)}\nAverage Change: {average}\nGreatest Increase in Profits: {dates[gain_index]} (${gain})\nGreatest Decrease in Profits: {dates[loss_index]} (${loss})")
+    
+    writer(total_months, total, dates_gain, dates_loss, average, loss, gain, loss_index, gain_index)
+    #print(f"Financial Analysis\n--------------------------\nTotal Months: {total_months}\nTotal: {total}\nAverage Change: {average}\nGreatest Increase in Profits: {dates_gain} (${gain})\nGreatest Decrease in Profits: {dates_loss} (${loss})")
     
 
-def writer():
-    pass
+
 logic()    
     
 

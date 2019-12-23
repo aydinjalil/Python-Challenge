@@ -9,17 +9,24 @@ def reader(path = "D:\GT Data Science and Analytics\Home_work\Python-Challenge\P
     election_csv = os.path.join(path, file)
     voters_list = []
     candidate_votes = []
-    with open(election_csv, newline = '') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter = ',')
-        next(csv_reader)   
-        for line in csv_reader:
-            voters_list.append(int(line[0]))
-            candidate_votes.append(str(line[2]))
+    try:
+        with open(election_csv, newline = '') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter = ',')
+            next(csv_reader)   
+            for line in csv_reader:
+                voters_list.append(int(line[0]))
+                candidate_votes.append(str(line[2]))
+    except FileNotFoundError:
+        csv_reader = None
     #print(len(voters_list)) # This and following print statement is to check for duplicate ids that will indicate
                             #that one or more people voted more than once
     #print(len(set(voters_list))) 
     return voters_list, candidate_votes
 
+def writer(total, khan, correy, li, tooley, winner):
+    with open("election_results.txt", "w" ) as text:
+        text.write(f"Election Results\n-----------------------------------\nTotal Votes: {total}\nKhan: {round(khan/total *100, 3)}% {khan}\nCorrey: {round(correy/total*100, 3)}% {correy}\nLi: {round(li/total*100, 3)}% {li}\nO'Tooley: {round(tooley/total*100,3)}% {tooley}\n-----------------------------------\nWinner: {winner}\n-----------------------------------")
+        print(f"Election Results\n-----------------------------------\nTotal Votes: {total}\nKhan: {round(khan/total *100, 3)}% {khan}\nCorrey: {round(correy/total*100, 3)}% {correy}\nLi: {round(li/total*100, 3)}% {li}\nO'Tooley: {round(tooley/total*100,3)}% {tooley}\n-----------------------------------\nWinner: {winner}\n-----------------------------------")
 
 
 def election_results(candidates):
@@ -55,9 +62,8 @@ def logic():
     votes_final["O'Tooley"] = tooley
     winner = max(votes_final, key = lambda k: votes_final[k])
     total = khan + correy + li + tooley
-    print(f"Election Results\n-----------------------------------\nTotal Votes: {total}\nKhan: {round(khan/total *100, 3)}% {khan}\nCorrey: {round(correy/total*100, 3)}% {correy}\nLi: {round(li/total*100, 3)}% {li}\nO'Tooley: {round(tooley/total*100,3)}% {tooley}\n-----------------------------------\nWinner: {winner}\n-----------------------------------")
+    writer(total, khan, correy, li, tooley, winner)
 
-def writer():
-    pass
+
 
 logic()
