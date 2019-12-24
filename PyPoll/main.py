@@ -9,7 +9,7 @@ def reader(path = "D:\GT Data Science and Analytics\Home_work\Python-Challenge\P
     election_csv = os.path.join(path, file)
     voters_list = []
     candidate_votes = []
-    try:
+    try: # If separately ran, reader function will return None instead of generic error if path or file name is not correct
         with open(election_csv, newline = '') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter = ',')
             next(csv_reader)   
@@ -19,18 +19,24 @@ def reader(path = "D:\GT Data Science and Analytics\Home_work\Python-Challenge\P
     except FileNotFoundError:
         csv_reader = None
     #print(len(voters_list)) # This and following print statement is to check for duplicate ids that will indicate
-                            #that one or more people voted more than once
+                            #that one or more people voted more than once. After I made sure that there are no
+                            #duplicate votes I commented these print functions.
     #print(len(set(voters_list))) 
     return voters_list, candidate_votes
 
 def writer(total, khan, correy, li, tooley, winner):
+    """
+    Function writes the results to text file and prints out the same result to console.
+    """
     with open("election_results.txt", "w" ) as text:
         text.write(f"Election Results\n-----------------------------------\nTotal Votes: {total}\nKhan: {round(khan/total *100, 3)}% {khan}\nCorrey: {round(correy/total*100, 3)}% {correy}\nLi: {round(li/total*100, 3)}% {li}\nO'Tooley: {round(tooley/total*100,3)}% {tooley}\n-----------------------------------\nWinner: {winner}\n-----------------------------------")
         print(f"Election Results\n-----------------------------------\nTotal Votes: {total}\nKhan: {round(khan/total *100, 3)}% {khan}\nCorrey: {round(correy/total*100, 3)}% {correy}\nLi: {round(li/total*100, 3)}% {li}\nO'Tooley: {round(tooley/total*100,3)}% {tooley}\n-----------------------------------\nWinner: {winner}\n-----------------------------------")
 
 
 def election_results(candidates):
-    """This function iterates through the votes and adds 1 for each candidate every time their name appears in the list and returns votes for each candidate"""
+    """
+    This function iterates through the votes and adds 1 for each candidate every time their name appears in the list and returns votes for each candidate
+    """
     khan_count = 0
     correy_count = 0
     li_count = 0
@@ -51,7 +57,7 @@ def election_results(candidates):
 
 def logic():
     """
-    This is the main function that calls reader and based on the returned values calls election_results function. The function prints put the final results.
+    This is the main function that calls reader and based on the returned values calls election_results function. Then necessary values are sent to writer function.
     """
     votes_final = {}
     ids, votes = reader()
@@ -62,6 +68,7 @@ def logic():
     votes_final["O'Tooley"] = tooley
     winner = max(votes_final, key = lambda k: votes_final[k])
     total = khan + correy + li + tooley
+    
     writer(total, khan, correy, li, tooley, winner)
 
 
