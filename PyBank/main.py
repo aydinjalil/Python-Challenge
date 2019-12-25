@@ -49,18 +49,19 @@ def greatest (profit_loss):
     """
     index_loss = 0
     index_gain = 0
-    #index = 0
     greatest_loss = 0
     greatest_gain = 0
     for i in range(len(profit_loss) - 1):
-        if profit_loss[i+1] - profit_loss[i] < greatest_loss:
+    	
+    	difference = profit_loss[i+1] - profit_loss[i]
+
+    	if (difference < greatest_loss):
             greatest_loss = profit_loss[i+1] - profit_loss[i]
             index_loss = i + 1
-            #index_gain += 1
-        elif profit_loss[i+1] - profit_loss[i] > greatest_gain:
-            greatest_gain = profit_loss[i+1] - profit_loss[i]
+    	elif difference > greatest_gain:	        
+            greatest_gain = difference
             index_gain = i + 1
-            #index_loss += 1
+            
     return greatest_loss, greatest_gain, index_loss, index_gain
         
 
