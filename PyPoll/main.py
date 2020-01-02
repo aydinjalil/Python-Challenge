@@ -1,7 +1,7 @@
 import csv
 import os
 
-def reader(path = "D:\GT Data Science and Analytics\Home_work\Python-Challenge\PyPoll\Resources", file = "election_data.csv"):
+def reader(path = "D:/GT Data Science and Analytics/Home_work/Python-Challenge/PyPoll/Resources", file = "election_data.csv"):
     """
     function accepts two parameters - the path to the cvs file and the file name, reads the file and returns two lists - voters' list\
     in as int candidates list in string format. 
@@ -35,24 +35,17 @@ def writer(total, khan, correy, li, tooley, winner):
 
 def election_results(candidates):
     """
-    This function iterates through the votes and adds 1 for each candidate every time their name appears in the list and returns votes for each candidate
+    This function iterates through the votes and adds 1 for each candidate every time their name appears in the dictionary and returns the final results in dictionary.
     """
-    khan_count = 0
-    correy_count = 0
-    li_count = 0
-    otooley_count = 0
-    
-    for i in candidates:
-        if i == 'Khan':
-            khan_count += 1
-        elif i == 'Li': 
-            li_count += 1
-        elif i == 'Correy':
-            correy_count += 1
-        else:
-            otooley_count += 1
-    
-    return khan_count, correy_count, li_count, otooley_count
+    _results = {}
+    for candidate in candidates:
+    	if candidate not in _results:
+    		_results[candidate] = 1
+    	else:
+    		_results[candidate] += 1
+ 
+    return _results
+   
      
 
 def logic():
@@ -61,14 +54,15 @@ def logic():
     """
     votes_final = {}
     ids, votes = reader()
-    khan, correy, li, tooley = election_results(votes)
-    votes_final["Khan"] = khan
-    votes_final["Correy"] = correy
-    votes_final["Li"] = li
-    votes_final["O'Tooley"] = tooley
-    winner = max(votes_final, key = lambda k: votes_final[k])
+    final_results = election_results(votes)
+
+    winner = max(final_results, key = lambda k: final_results[k])
+    khan  = final_results['Khan']
+    correy = final_results['Correy'] 
+    li = final_results['Li']
+    tooley = final_results["O'Tooley"]
     total = khan + correy + li + tooley
-    
+ 
     writer(total, khan, correy, li, tooley, winner)
 
 
