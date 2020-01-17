@@ -1,7 +1,7 @@
 import csv
 import os
 
-def reader(path = "D:/GT Data Science and Analytics/Home_work/Python-Challenge/PyPoll/Resources", file = "election_data.csv"):
+def reader(path = "./Resources", file = "election_data.csv"):
     """
     function accepts two parameters - the path to the cvs file and the file name, reads the file and returns two lists - voters' list\
     in as int candidates list in string format. 

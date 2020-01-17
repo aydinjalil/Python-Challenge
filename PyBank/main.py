@@ -3,7 +3,7 @@ import os
 import pdb
 
 
-def reader(path = "D:\GT Data Science and Analytics\Home_work\Python-Challenge\PyBank\Resources", file = "budget_data.csv"):
+def reader(path = "./Resources", file = "budget_data.csv"):
     """
     function accepts two parameters - the path to the cvs file and the file name, reads the file and returns two lists - date list\
     in month - year format as string and profit loss list in float. 
@@ -11,6 +11,7 @@ def reader(path = "D:\GT Data Science and Analytics\Home_work\Python-Challenge\P
     budget_csv = os.path.join(path, file)
     date_list = []
     profit_loss_lst = []
+    csv_dict = {}
     try: # If separately ran, reader function will return None instead of generic error if path or file name is not correct
         with open(budget_csv, newline = '') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter = ',')
